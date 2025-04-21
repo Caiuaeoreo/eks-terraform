@@ -1,0 +1,93 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+data:
+  default.conf: |
+    server {
+        listen 80;
+        server_name localhost;
+
+        location / {
+            root /usr/share/nginx/html;
+            index index.html index.htm;
+        }
+
+        location /ping {
+            return 200 "pong\n";
+            add_header Content-Type text/plain;
+        }
+
+        error_page 500 502 503 504 /50x.html;
+        location = /50x.html {
+            root /usr/share/nginx/html;
+        }
+    }
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-html
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Istio Sample App</title>
+      <style>
+        body {
+          font-family: Arial, sans-serif;
+          margin: 0;
+          padding: 0;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          min-height: 100vh;
+          background: linear-gradient(135deg, #6e8efb, #a777e3);
+          color: white;
+        }
+        .container {
+          text-align: center;
+          padding: 2rem;
+          background-color: rgba(255, 255, 255, 0.2);
+          border-radius: 10px;
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+          backdrop-filter: blur(10px);
+          max-width: 800px;
+        }
+        h1 {
+          font-size: 3rem;
+          margin-bottom: 1rem;
+        }
+        p {
+          font-size: 1.2rem;
+          margin-bottom: 2rem;
+        }
+        .endpoint {
+          background-color: rgba(0, 0, 0, 0.2);
+          padding: 1rem;
+          border-radius: 5px;
+          font-family: monospace;
+          margin-bottom: 1rem;
+        }
+        .logo {
+          margin-bottom: 2rem;
+          font-size: 5rem;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <div class="logo">🚀</div>
+        <h1>Nginx + Istio Sample App</h1>
+        <p>This is a sample application demonstrating Nginx with Istio Service Mesh</p>
+        
+        <div class="endpoint">
+          <p>Try the ping endpoint:</p>
+          <code>curl http://{your-gateway-url}/ping</code>
+        </div>
+        
+        <p>The endpoint will respond with: <strong>pong</strong></p>
+      </div>
+    </body>
+    </html>
