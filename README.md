@@ -1,4 +1,4 @@
-# 🌈 EKS e Istio: Uma Aventura na Terra de Ooo!
+# EKS e Istio: Uma Aventura na Terra de Ooo!
 
 ```
          .-.
